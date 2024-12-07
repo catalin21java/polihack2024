@@ -8,15 +8,15 @@ import {
   TouchableOpacity,
   Text,
   Alert,
-  Animated,
 } from "react-native";
+import { Calendar } from "react-native-calendars";
 
 const App = () => {
   // Function to get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Months anre zero-indexed
     const day = today.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
@@ -38,9 +38,7 @@ const App = () => {
   ]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState(getTodayDate()); // Set default date to today
-  const [expandedEntryId, setExpandedEntryId] = useState<number | null>(null); // Track expanded entry
-  const [expandAnimation] = useState(new Animated.Value(0)); // For animating the expansion
+  const [selectedDate, setSelectedDate] = useState(getTodayDate()); // Selected date on the calendar
 
   // Function to add a new entry
   const handleAddEntry = () => {
@@ -55,38 +53,50 @@ const App = () => {
       id: entries.length + 1, // Generate a new ID
       title,
       description,
-      date,
+      date: selectedDate,
     };
     setEntries([newEntry, ...entries]); // Add new entry at the top
     setTitle("");
     setDescription("");
-    setDate(getTodayDate()); // Reset date to today for the next entry
   };
 
-  // Toggle expanded entry
-  const toggleExpandEntry = (id: number) => {
-    if (expandedEntryId === id) {
-      // Collapse the entry if it's already expanded
-      setExpandedEntryId(null);
-      Animated.timing(expandAnimation, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    } else {
-      // Expand the new entry
-      setExpandedEntryId(id);
-      Animated.timing(expandAnimation, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: false,
-      }).start();
-    }
-  };
+  // Filter entries by selected date
+  const filteredEntries = entries.filter(
+    (entry) => entry.date === selectedDate
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Calendar */}
+        <Calendar
+          onDayPress={(day: { dateString: React.SetStateAction<string> }) =>
+            setSelectedDate(day.dateString)
+          } // Update selected date on tap
+          markedDates={{
+            [selectedDate]: { selected: true, selectedColor: "#4fc3f7" },
+          }}
+          theme={{
+            selectedDayBackgroundColor: "#4fc3f7",
+            todayTextColor: "#4a90e2",
+            arrowColor: "#4a90e2",
+          }}
+          style={styles.calendar}
+        />
+
+        {/* Display Entries for Selected Date */}
+        <Text style={styles.header}>Entries for {selectedDate}</Text>
+        {filteredEntries.length === 0 ? (
+          <Text style={styles.noEntries}>No entries found for this date.</Text>
+        ) : (
+          filteredEntries.map((entry) => (
+            <View key={entry.id} style={styles.entryCard}>
+              <Text style={styles.entryTitle}>{entry.title}</Text>
+              <Text style={styles.entryDescription}>{entry.description}</Text>
+            </View>
+          ))
+        )}
+
         {/* Journal Entry Form */}
         <View style={[styles.entryCard, styles.form]}>
           <Text style={styles.header}>New Journal Entry</Text>
@@ -95,12 +105,6 @@ const App = () => {
             placeholder="Title (e.g., A Beautiful Day)"
             value={title}
             onChangeText={setTitle}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Date (YYYY-MM-DD)"
-            value={date}
-            editable={false} // Make the date input non-editable since it's automatic
           />
           <TextInput
             style={[styles.input, styles.textarea]}
@@ -113,40 +117,6 @@ const App = () => {
             <Text style={styles.buttonText}>Add Entry</Text>
           </TouchableOpacity>
         </View>
-
-        {/* Journal Entries */}
-        {entries.map((entry) => (
-          <View key={entry.id}>
-            <TouchableOpacity
-              style={styles.entryCard}
-              onPress={() => toggleExpandEntry(entry.id)}
-            >
-              <Text style={styles.entryDate}>{entry.date}</Text>
-              <Text style={styles.entryTitle}>{entry.title}</Text>
-            </TouchableOpacity>
-
-            {/* Expand description like a window above */}
-            {expandedEntryId === entry.id && (
-              <Animated.View
-                style={[
-                  styles.expandedDescription,
-                  {
-                    height: expandAnimation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, 150], // Adjust height as necessary
-                    }),
-                    opacity: expandAnimation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, 1],
-                    }),
-                  },
-                ]}
-              >
-                <Text style={styles.entryDescription}>{entry.description}</Text>
-              </Animated.View>
-            )}
-          </View>
-        ))}
       </ScrollView>
     </SafeAreaView>
   );
@@ -162,16 +132,10 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 16,
   },
-  form: {
+  calendar: {
     marginBottom: 20,
-    padding: 16,
-    backgroundColor: "#ffffff",
     borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    overflow: "hidden",
   },
   header: {
     fontSize: 20,
@@ -179,14 +143,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#4a4a4a",
   },
+  noEntries: {
+    fontSize: 16,
+    fontStyle: "italic",
+    color: "#666666",
+    marginBottom: 20,
+  },
   input: {
     borderWidth: 1,
-    borderColor: "#a5d6e8", // Lighter pastel blue border
+    borderColor: "#a5d6e8",
     borderRadius: 4,
     padding: 8,
     marginBottom: 12,
     fontSize: 16,
-    backgroundColor: "#f1faff", // Light blue input background
+    backgroundColor: "#f1faff",
   },
   textarea: {
     height: 80,
@@ -203,13 +173,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
     borderLeftWidth: 4,
-    borderLeftColor: "#80deea", // Lighter pastel blue border for entries
-  },
-  entryDate: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#0288d1", // Dark blue for the date
-    marginBottom: 4,
+    borderLeftColor: "#80deea",
   },
   entryTitle: {
     fontSize: 18,
@@ -220,15 +184,11 @@ const styles = StyleSheet.create({
   entryDescription: {
     fontSize: 16,
     color: "#555555",
-    paddingHorizontal: 16,
-    paddingBottom: 16,
   },
-  expandedDescription: {
+  form: {
+    padding: 16,
     backgroundColor: "#ffffff",
     borderRadius: 8,
-    padding: 16,
-    marginBottom: 20,
-    marginTop: -10, // Makes it expand over the card
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -236,7 +196,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   button: {
-    backgroundColor: "#4fc3f7", // Light pastel blue button color
+    backgroundColor: "#4fc3f7",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
