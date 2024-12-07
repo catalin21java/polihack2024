@@ -1,32 +1,18 @@
+// src/screens/question2.tsx
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function question2() {
-  const goals = [
-    "Get Fit",
-    "Get Motivated",
-    "Get Happier",
-    "Get Productive",
-    "Get Healthier",
-    "Get Over It",
-    "Get Focused",
-    "Get Wealthy",
-    "Get Wiser",
-    "Get Spiritual",
-  ];
+  const options = ["Rarely", "Occasionally", "Frequently", "Daily"];
 
-  // State to track selected goals
-  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+  // State to track selected answer
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
-  // Handle card selection
-  const toggleSelection = (goal: string) => {
-    setSelectedGoals((prevSelected) =>
-      prevSelected.includes(goal)
-        ? prevSelected.filter((item) => item !== goal)
-        : [...prevSelected, goal]
-    );
+  // Handle answer selection
+  const handleSelection = (answer: string) => {
+    setSelectedAnswer(answer);
   };
 
   return (
@@ -35,31 +21,29 @@ export default function question2() {
       style={{ backgroundColor: "#a5d6e8" }}
     >
       {/* Progress Bar */}
-      <View className="h-1 bg-white w-full mb-6">
-        <View className="bg-black-100 h-1 w-1/3" />
-      </View>
+      <View className="h-1 bg-white w-full mb-6"></View>
       {/* Title */}
       <Text className="text-white text-2xl font-bold mb-4">
-        What are your goals?
+        How often do you engage in physical activities?
       </Text>
-      {/* Goals Grid */}
+      {/* Options Grid */}
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="mt-5 mb-6">
         <View className="flex flex-wrap flex-row justify-between">
-          {goals.map((goal, index) => (
+          {options.map((option, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => toggleSelection(goal)}
+              onPress={() => handleSelection(option)}
               activeOpacity={0.7}
               className={`w-[48%] rounded-lg p-9 mb-4 items-center ${
-                selectedGoals.includes(goal) ? "bg-gray-200" : "bg-gray-800"
+                selectedAnswer === option ? "bg-gray-200" : "bg-gray-800"
               }`}
             >
               <Text
                 className={`text-base font-medium text-center ${
-                  selectedGoals.includes(goal) ? "text-black" : "text-white"
+                  selectedAnswer === option ? "text-black" : "text-white"
                 }`}
               >
-                {goal}
+                {option}
               </Text>
             </TouchableOpacity>
           ))}
@@ -68,9 +52,9 @@ export default function question2() {
       {/* Footer */}
       <View>
         <Text className="text-black font-pmedium text-xl text-center">
-          Select one or more
+          Select one
         </Text>
-        {selectedGoals.length > 0 && (
+        {selectedAnswer && (
           <View className="absolute bottom-4 left-4 right-4">
             <TouchableOpacity
               onPress={() => {

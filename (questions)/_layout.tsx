@@ -7,6 +7,7 @@ const AuthLayout = () => {
   return (
     <>
       <Stack>
+        {/* Make sure you have unique names for each screen */}
         <Stack.Screen name="question1" options={{ headerShown: false }} />
         <Stack.Screen name="question2" options={{ headerShown: false }} />
         <Stack.Screen name="question3" options={{ headerShown: false }} />

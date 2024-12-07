@@ -1,87 +1,103 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from 'react';
+import { SafeAreaView, Text, TouchableOpacity, View, StyleSheet, ScrollView } from 'react-native';
+import Layout from './_layout'; // Import the Layout
 
-export default function question1() {
-  const goals = [
-    "Get Fit",
-    "Get Motivated",
-    "Get Happier",
-    "Get Productive",
-    "Get Healthier",
-    "Get Over It",
-    "Get Focused",
-    "Get Wealthy",
-    "Get Wiser",
-    "Get Spiritual",
-  ];
+const questionsData = [
+  {
+    question: "How often do you exercise?",
+    options: ["Daily", "Weekly", "Monthly", "Never"],
+  },
+  {
+    question: "What type of exercises do you prefer?",
+    options: ["Cardio", "Strength", "Yoga", "None"],
+  },
+  // Add more questions here as needed
+];
 
-  // State to track selected goals
-  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+export default function QuestionsContainer() {
+  const [currentGoalIndex, setCurrentGoalIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
 
-  // Handle card selection
-  const toggleSelection = (goal: string) => {
-    setSelectedGoals((prevSelected) =>
-      prevSelected.includes(goal)
-        ? prevSelected.filter((item) => item !== goal)
-        : [...prevSelected, goal]
-    );
+  const handleAnswer = (answer: string) => {
+    setSelectedAnswers((prev) => [...prev, answer]);
   };
 
+  const handleNextGoal = () => {
+    if (currentGoalIndex < questionsData.length - 1) {
+      setCurrentGoalIndex(currentGoalIndex + 1);
+    } else {
+      // All questions answered, proceed to the next screen
+      // Example: router.push("/nextScreen");
+      console.log("All questions answered:", selectedAnswers);
+    }
+  };
+
+  const currentQuestion = questionsData[currentGoalIndex];
+
   return (
-    <SafeAreaView
-      className="flex-1 px-4 pt-6"
-      style={{ backgroundColor: "#a5d6e8" }}
-    >
-      {/* Progress Bar */}
-      <View className="h-1 bg-white w-full mb-6"></View>
-      {/* Title */}
-      <Text className="text-white text-2xl font-bold mb-4">
-        What are your goals?
-      </Text>
-      {/* Goals Grid */}
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="mt-5 mb-6">
-        <View className="flex flex-wrap flex-row justify-between">
-          {goals.map((goal, index) => (
+    <Layout>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.header}>Goal {currentGoalIndex + 1}</Text>
+
+        <ScrollView style={styles.questionsContainer}>
+          <Text style={styles.question}>{currentQuestion.question}</Text>
+          {currentQuestion.options.map((option, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => toggleSelection(goal)}
-              activeOpacity={0.7}
-              className={`w-[48%] rounded-lg p-9 mb-4 items-center ${
-                selectedGoals.includes(goal) ? "bg-gray-200" : "bg-gray-800"
-              }`}
+              style={styles.optionButton}
+              onPress={() => handleAnswer(option)}
             >
-              <Text
-                className={`text-base font-medium text-center ${
-                  selectedGoals.includes(goal) ? "text-black" : "text-white"
-                }`}
-              >
-                {goal}
-              </Text>
+              <Text style={styles.optionText}>{option}</Text>
             </TouchableOpacity>
           ))}
-        </View>
-      </ScrollView>
-      {/* Footer */}
-      <View>
-        <Text className="text-black font-pmedium text-xl text-center">
-          Select one or more
-        </Text>
-        {selectedGoals.length > 0 && (
-          <View className="absolute bottom-4 left-4 right-4">
-            <TouchableOpacity
-              onPress={() => {
-                router.push("/question2");
-              }}
-              activeOpacity={0.8}
-              className="bg-orange-500 py-4 mb-5 rounded-lg items-center"
-            >
-              <Text className="text-white text-lg font-medium">Continue</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-    </SafeAreaView>
+        </ScrollView>
+
+        <TouchableOpacity style={styles.nextButton} onPress={handleNextGoal}>
+          <Text style={styles.buttonText}>
+            {currentGoalIndex < questionsData.length - 1 ? 'Next Goal' : 'Finish'}
+          </Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </Layout>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  questionsContainer: {
+    marginBottom: 20,
+  },
+  question: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  optionButton: {
+    padding: 12,
+    marginVertical: 8,
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
+  },
+  optionText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  nextButton: {
+    padding: 16,
+    backgroundColor: '#28a745',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+});
