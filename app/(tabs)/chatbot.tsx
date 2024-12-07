@@ -5,6 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
 } from "react-native";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -85,40 +89,49 @@ const ChatbotScreen: React.FC = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={messages}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View
-            style={[
-              styles.messageContainer,
-              item.sender === "user" ? styles.userMessage : styles.botMessage,
-            ]}
-          >
-            <Text
-              style={[
-                styles.messageText,
-                item.sender === "bot" ? styles.botMessageText : {},
-              ]}
-            >
-              {item.text}
-            </Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <FlatList
+            data={messages}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View
+                style={[
+                  styles.messageContainer,
+                  item.sender === "user"
+                    ? styles.userMessage
+                    : styles.botMessage,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.messageText,
+                    item.sender === "bot" ? styles.botMessageText : {},
+                  ]}
+                >
+                  {item.text}
+                </Text>
+              </View>
+            )}
+          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={inputText}
+              onChangeText={setInputText}
+              placeholder="Type a message..."
+              style={styles.input}
+            />
+            <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+              <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
           </View>
-        )}
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder="Type a message..."
-          style={styles.input}
-        />
-        <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
