@@ -172,8 +172,8 @@ const Create = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#E3F2FD",
     flex: 1,
-    backgroundColor: "#fff",
   },
   scrollContent: {
     flexGrow: 1,

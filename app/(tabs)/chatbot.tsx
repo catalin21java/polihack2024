@@ -9,6 +9,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,6 +25,7 @@ const ChatbotScreen: React.FC = () => {
   const { entries } = useJournal();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>("");
+  const [isTyping, setIsTyping] = useState<boolean>(false);
 
   const getJournalData = () => {
     return entries
@@ -38,6 +41,8 @@ const ChatbotScreen: React.FC = () => {
     setInputText("");
 
     try {
+      setIsTyping(true); // Show typing indicator
+
       const journalData = getJournalData();
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -47,7 +52,7 @@ const ChatbotScreen: React.FC = () => {
             {
               role: "system",
               content:
-                "You are a helpful assistant that has access to the user journal and want to help him achieve a better day. Be more specific, use more information from the journal. Give personalized responses. Suggest some helpful coping mecahnism, ideas, etc> If the user wants to kill himself or something like that give him the antisuicide hotline number. Be empathetic and helpful.",
+                "You are a helpful assistant that has access to the user's journal and aim to help them achieve a better day. Provide specific and empathetic responses. If the user mentions suicidal thoughts, provide the appropriate helpline number. Be kind and supportive.",
             },
             {
               role: "system",
@@ -67,20 +72,24 @@ const ChatbotScreen: React.FC = () => {
 
       const botReply = response.data.choices[0].message.content;
       const botMessage: Message = { sender: "bot", text: botReply };
+
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       const errorMessage: Message = {
         sender: "bot",
-        text: "Oops! Something went wrong.",
+        text: "Oops! Something went wrong. Please try again.",
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
+    } finally {
+      setIsTyping(false); // Hide typing indicator
     }
   };
+
   useEffect(() => {
-    const initialBotMessage = async () => {
+    const initialBotMessage = () => {
       const welcomeMessage: Message = {
         sender: "bot",
-        text: "Hello! I noticed you've just entered the chat. How can I help you today?",
+        text: "Hello! Welcome to the chat. How can I assist you today?",
       };
       setMessages((prevMessages) => [...prevMessages, welcomeMessage]);
     };
@@ -93,102 +102,126 @@ const ChatbotScreen: React.FC = () => {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <FlatList
-            data={messages}
-            keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View
+      <SafeAreaView style={{ flex: 1 }}>
+        {/* Chat Messages */}
+        <FlatList
+          data={messages}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View
+              style={[
+                styles.messageContainer,
+                item.sender === "user" ? styles.userMessage : styles.botMessage,
+              ]}
+            >
+              <Text
                 style={[
-                  styles.messageContainer,
-                  item.sender === "user"
-                    ? styles.userMessage
-                    : styles.botMessage,
+                  styles.messageText,
+                  item.sender === "bot" ? styles.botMessageText : {},
                 ]}
               >
-                <Text
-                  style={[
-                    styles.messageText,
-                    item.sender === "bot" ? styles.botMessageText : {},
-                  ]}
-                >
-                  {item.text}
-                </Text>
-              </View>
-            )}
-          />
-          <View style={styles.inputContainer}>
-            <TextInput
-              value={inputText}
-              onChangeText={setInputText}
-              placeholder="Type a message..."
-              style={styles.input}
-            />
-            <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-              <Text style={styles.sendButtonText}>Send</Text>
-            </TouchableOpacity>
+                {item.text}
+              </Text>
+            </View>
+          )}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+        {/* Typing Indicator */}
+
+        {isTyping && (
+          <View style={styles.typingIndicator}>
+            <ActivityIndicator size="small" color="#4fc3f7" />
+            <Text style={styles.typingText}>Bot is typing...</Text>
           </View>
-        </SafeAreaView>
-      </TouchableWithoutFeedback>
+        )}
+        {/* Input Section */}
+        <View style={styles.inputContainer} className="p-10">
+          <TextInput
+            value={inputText}
+            onChangeText={setInputText}
+            placeholder="Type your message..."
+            placeholderTextColor="#A9A9A9"
+            style={styles.input}
+          />
+          <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };
 
 export default ChatbotScreen;
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e0f7fa", // Light pastel blue background
-    padding: 16,
+    backgroundColor: "#E3F2FD", // Light pastel blue background
   },
   messageContainer: {
-    marginBottom: 10,
+    marginVertical: 8,
     padding: 12,
-    borderRadius: 8,
-    maxWidth: "80%" as "80%",
+    borderRadius: 15,
+    maxWidth: "75%",
   },
   userMessage: {
-    backgroundColor: "#4fc3f7", // Light pastel blue for user
-    alignSelf: "flex-end" as "flex-end",
+    backgroundColor: "#90CAF9", // Calm blue for user messages
+    alignSelf: "flex-end",
+    borderTopRightRadius: 0,
   },
   botMessage: {
-    backgroundColor: "#80deea", // Lighter pastel blue for bot
-    alignSelf: "flex-start" as "flex-start",
+    backgroundColor: "#8DBBA8", // Soft green for bot messages
+    alignSelf: "flex-start",
+    borderTopLeftRadius: 0,
   },
   messageText: {
-    color: "#ffffff",
     fontSize: 16,
+    lineHeight: 22,
   },
   botMessageText: {
-    color: "#000000", // Black for bot's text for better contrast
+    color: "#4A4A4A", // Gray text for better readability
   },
   inputContainer: {
     flexDirection: "row",
-    alignItems: "center" as "center",
-    marginTop: 16,
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#FFFFFF",
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+    position: "absolute",
+    bottom: 0,
   },
   input: {
     flex: 1,
-    backgroundColor: "#f1faff", // Light blue input field background
+    backgroundColor: "#F5F5F5",
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 25,
     borderWidth: 1,
-    borderColor: "#a5d6e8", // Lighter pastel blue border
+    borderColor: "#D3D3D3",
+    fontSize: 16,
   },
   sendButton: {
     marginLeft: 12,
-    backgroundColor: "#4fc3f7", // Light pastel blue button color
+    backgroundColor: "#64B5F6", // Vibrant blue for send button
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
+    borderRadius: 25,
   },
   sendButtonText: {
-    color: "#ffffff",
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "600",
   },
-};
+  typingIndicator: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    paddingHorizontal: 20,
+  },
+  typingText: {
+    fontSize: 14,
+    color: "#4fc3f7",
+    marginLeft: 10,
+  },
+});

@@ -17,7 +17,7 @@ const TabIcon = ({ icon, color, name, focused }: TabIconProps) => {
         alignItems: "center", // Centers content horizontally
         justifyContent: "center", // Centers content vertically
         flex: 1, // Ensures space is distributed evenly
-        marginTop: 8, // Adjusted margin for better vertical alignment
+        marginTop: 12, // Adjusted margin for better vertical alignment
       }}
     >
       <Image
@@ -34,7 +34,7 @@ const TabIcon = ({ icon, color, name, focused }: TabIconProps) => {
           color: color,
           fontSize: 10, // Adjusts font size
           fontWeight: focused ? "600" : "400", // Adjusts text weight based on focus state
-          marginTop: 4, // Adds space between icon and text
+          marginTop: 5, // Adds space between icon and text
         }}
       >
         {name}
@@ -49,7 +49,7 @@ const TabsLayout = () => {
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#1e3a8a", // Darker blue for active tab
+          tabBarActiveTintColor: "#8DBBA8", // Darker blue for active tab
           tabBarInactiveTintColor: "#3b82f6", // Medium blue for inactive tabs
           tabBarStyle: {
             backgroundColor: "#f0f8ff", // Light pastel background for the tab bar
