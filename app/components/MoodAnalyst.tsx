@@ -24,6 +24,16 @@ const MoodAnalysis: React.FC<MoodAnalysisProps> = ({ moodData }) => {
 
   const safeMoodData = moodData || defaultMoodData;
 
+  function rgba(
+    arg0: number,
+    arg1: number,
+    arg2: number,
+    $: any,
+    arg4: { opacity: number }
+  ): string {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <View className="bg-white rounded-lg shadow-md p-4 my-4">
       <Text className="text-lg font-bold mb-2">Mood Trends</Text>
