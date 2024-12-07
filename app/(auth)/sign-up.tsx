@@ -42,62 +42,46 @@ const SignUp = () => {
 
   return (
     <SafeAreaView className=" h-full" style={{ backgroundColor: "#a5d6e8" }}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView>
-          <View className="w-full justify-center min-h-[85vh] px-4 my-6">
-            {/* <Image source={images.logo} resizeMode='contain' className='w-[115px] h-[35px]'></Image> */}
-            <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
-              Username
-            </Text>
-            <FormField
-              title=""
-              value={form.username}
-              handleChangeText={(e) => setForm({ ...form, username: e })}
-              otherStyles="mt-10"
-            />
-            <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
-              Email
-            </Text>
-            <FormField
-              title=""
-              value={form.email}
-              handleChangeText={(e) => setForm({ ...form, email: e })}
-              otherStyles="mt-7"
-              keyboardType="email-address"
-            />
-            <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
-              Password
-            </Text>
-            <FormField
-              title=""
-              value={form.password}
-              handleChangeText={(e) => setForm({ ...form, password: e })}
-              otherStyles="mt-7"
-            />
-            <CustomButton
-              title="Sign Up"
-              handlePress={submit}
-              containerStyles="mt-7 bg-black"
-              isLoading={isSubmitting}
-              textStyles="text-white"
-            />
-            <View className="justify-center pt-5 flex-row gap-2">
-              <Text className="text-lg text-black font-pregular">
-                Have an account already?
-              </Text>
-              <Link
-                href="/sign-in"
-                className="text-lg font-psemibold text-secondary"
-              >
-                Sign In
-              </Link>
-            </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+      <ScrollView>
+        <View className="w-full justify-center min-h-[85vh] px-4 my-4">
+          {/* <Image source={images.logo} resizeMode='contain' className='w-[115px] h-[35px]'></Image> */}
+          <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
+            Username
+          </Text>
+          <FormField
+            title=""
+            value={form.username}
+            handleChangeText={(e) => setForm({ ...form, username: e })}
+            otherStyles="mt-1"
+          />
+          <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
+            Email
+          </Text>
+          <FormField
+            title=""
+            value={form.email}
+            handleChangeText={(e) => setForm({ ...form, email: e })}
+            otherStyles="mt-1"
+            keyboardType="email-address"
+          />
+          <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
+            Password
+          </Text>
+          <FormField
+            title=""
+            value={form.password}
+            handleChangeText={(e) => setForm({ ...form, password: e })}
+            otherStyles="mt-1"
+          />
+          <CustomButton
+            title="Sign Up"
+            handlePress={submit}
+            containerStyles="mt-7 bg-black"
+            isLoading={isSubmitting}
+            textStyles="text-white"
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

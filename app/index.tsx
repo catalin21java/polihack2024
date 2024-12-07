@@ -43,8 +43,8 @@ export default function Index() {
           />
           <View className="relative mt-5">
             <Text className="text-3xl  text-black font-bold text-center">
-            Chat Your Way to Growth with
-              <Text className="text-secondary-200 "> Aora </Text>
+            Chat Your Way to Growth with 
+            <Text style={{ color: '#668ED3' }}> Unveil </Text>
             </Text>
           
           </View>
@@ -54,7 +54,7 @@ export default function Index() {
             <CustomButton
               title="Continue with Email"
               handlePress={() => router.push("/question1")}
-              containerStyles="w-full mt-7 bg-black"
+              containerStyles="w-full mt-7 bg-cyan-900"
               textStyles="text-white"
             />
         </View>
