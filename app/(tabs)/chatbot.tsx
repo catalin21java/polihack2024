@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -74,7 +74,7 @@ const ChatbotScreen: React.FC = () => {
   };
   useEffect(() => {
     const initialBotMessage = async () => {
-      const welcomeMessage = {
+      const welcomeMessage: Message = {
         sender: "bot",
         text: "Hello! I noticed you've just entered the chat. How can I help you today?",
       };
