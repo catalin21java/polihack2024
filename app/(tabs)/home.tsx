@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="bg-cyan-100" style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#E3F2FD" }}>
       {/* Background Gradient */}
       <View
         style={{

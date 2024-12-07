@@ -124,19 +124,24 @@ const Create = () => {
               {!isFutureDate(selectedDate) && (
                 <View style={[styles.entryCard, styles.form]}>
                   <Text style={styles.header}>New Journal Entry</Text>
+
                   <TextInput
                     style={styles.input}
                     placeholder="How was your day?"
+                    placeholderTextColor="#B0BEC5" // Light gray placeholder
                     value={title}
                     onChangeText={setTitle}
                   />
+
                   <TextInput
                     style={[styles.input, styles.textarea]}
                     placeholder="Tell me more about it"
+                    placeholderTextColor="#B0BEC5"
                     value={description}
                     onChangeText={setDescription}
                     multiline
                   />
+
                   <TouchableOpacity
                     style={styles.button}
                     onPress={handleAddEntry}
@@ -172,12 +177,79 @@ const Create = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#E3F2FD",
+    backgroundColor: "#E3F2FD", // Light pastel blue
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
     padding: 16,
+  },
+  entryCard: {
+    backgroundColor: "#FFFFFF", // White card for contrast
+    padding: 20,
+    borderRadius: 12, // Softer corners
+    marginBottom: 16,
+    marginTop: 16,
+    shadowColor: "#000", // Subtle shadow for depth
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4, // Android shadow
+  },
+  form: {
+    marginBottom: 32,
+  },
+  header: {
+    fontSize: 26, // Slightly larger for emphasis
+    fontWeight: "bold",
+    color: "#8DBBA8", // Calming purple
+    marginBottom: 20,
+    textAlign: "center", // Centered header
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#8DBBA8", // Soft lavender border
+    borderRadius: 10, // Rounded corners
+    padding: 12,
+    marginBottom: 16,
+    backgroundColor: "#F9F9F9", // Light background for input fields
+    fontSize: 16,
+    color: "#333", // Dark text for readability
+  },
+  textarea: {
+    height: 120,
+    textAlignVertical: "top",
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: "#8DBBA8", // Vibrant purple for the button
+    padding: 16,
+    borderRadius: 25, // Rounded pill-like button
+    alignItems: "center",
+    shadowColor: "#000", // Shadow for the button
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  buttonText: {
+    color: "#FFFFFF", // White text for contrast
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  entryTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  entryDescription: {
+    fontSize: 16,
+    color: "#666",
+  },
+  noEntries: {
+    textAlign: "center",
+    color: "#999",
+    marginTop: 16,
   },
   streakContainer: {
     alignItems: "center",
@@ -194,61 +266,11 @@ const styles = StyleSheet.create({
   streakNumber: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#4caf50",
+    color: "#8DBBA8",
   },
   streakLabel: {
     fontSize: 18,
     marginLeft: 4,
-  },
-  entryCard: {
-    backgroundColor: "#f9f9f9",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-  },
-  form: {
-    marginBottom: 32,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 8,
-    marginBottom: 16,
-  },
-  textarea: {
-    height: 100,
-    textAlignVertical: "top",
-  },
-  button: {
-    backgroundColor: "#4caf50",
-    padding: 16,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  noEntries: {
-    textAlign: "center",
-    color: "#999",
-    marginTop: 16,
-  },
-  entryTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  entryDescription: {
-    fontSize: 16,
-    color: "#666",
   },
 });
 
