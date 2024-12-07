@@ -35,7 +35,9 @@ export default function question1() {
       style={{ backgroundColor: "#a5d6e8" }}
     >
       {/* Progress Bar */}
-      <View className="h-1 bg-white w-full mb-6"></View>
+        <View className="h-1 bg-white w-full mb-6">
+       
+      </View>
       {/* Title */}
       <Text className="text-white text-2xl font-bold mb-4">
         What are your goals?
