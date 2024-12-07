@@ -39,7 +39,7 @@ export default function Index() {
           />
           <View className="relative mt-5">
             <Text className="text-3xl text-white font-bold text-center">
-              Discover Endless Possibilities with
+            Chat Your Way to Growth with
               <Text className="text-secondary-200 "> Aora </Text>
             </Text>
             <Image
@@ -49,8 +49,7 @@ export default function Index() {
             />
           </View>
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            Where creativity meets innovation: embar on a jounrey of limitless
-            exploration with Aora
+          Your journey, your thoughts—tracked, understood, and always with you. Let’s get started!
           </Text>
           <CustomButton
             title="Continue with Email"
