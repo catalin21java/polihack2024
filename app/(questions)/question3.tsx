@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function question1() {
+export default function question2() {
   const goals = [
     "Get Fit",
     "Get Motivated",
@@ -35,7 +35,9 @@ export default function question1() {
       style={{ backgroundColor: "#a5d6e8" }}
     >
       {/* Progress Bar */}
-      <View className="h-1 bg-white w-full mb-6"></View>
+      <View className="h-1 bg-white w-full mb-6">
+        <View className="bg-black-100 h-1 w-2/3" />
+      </View>
       {/* Title */}
       <Text className="text-white text-2xl font-bold mb-4">
         What are your goals?
@@ -72,7 +74,7 @@ export default function question1() {
           <View className="absolute bottom-4 left-4 right-4">
             <TouchableOpacity
               onPress={() => {
-                router.push("/question2");
+                router.replace("/sign-in");
               }}
               activeOpacity={0.8}
               className="bg-orange-500 py-4 mb-5 rounded-lg items-center"
