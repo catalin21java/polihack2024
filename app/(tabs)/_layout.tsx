@@ -50,7 +50,7 @@ const TabsLayout = () => {
         screenOptions={{
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#8DBBA8", // Darker blue for active tab
-          tabBarInactiveTintColor: "#3b82f6", // Medium blue for inactive tabs
+          tabBarInactiveTintColor: "E3F2FD", // Medium blue for inactive tabs
           tabBarStyle: {
             backgroundColor: "#f0f8ff", // Light pastel background for the tab bar
             borderTopWidth: 1,
