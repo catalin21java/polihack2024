@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import moment from "moment"; // Install moment.js for date handling
 
 type MoodData = {
-  labels: string[];
-  data: number[];
+  labels: string[]; // Dates or day names
+  data: number[]; // Mood scores
   positiveDays: number;
   totalDays: number;
 };
@@ -16,7 +17,7 @@ type MoodAnalysisProps = {
 const MoodAnalysis: React.FC<MoodAnalysisProps> = ({ moodData }) => {
   // Provide default values to avoid undefined errors
   const defaultMoodData: MoodData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+    labels: [],
     data: [0, 0, 0, 0, 0],
     positiveDays: 0,
     totalDays: 0,
@@ -24,10 +25,26 @@ const MoodAnalysis: React.FC<MoodAnalysisProps> = ({ moodData }) => {
 
   const safeMoodData = moodData || defaultMoodData;
 
+  // Get the last 5 days including today
+  const today = moment(); // Current date
+  const labels = Array.from({ length: 5 }).map(
+    (_, i) =>
+      today
+        .clone()
+        .subtract(4 - i, "days")
+        .format("ddd") // Get short weekday names
+  );
+
+  // Highlight today's label by adding a marker or distinction
+  const highlightedLabels = labels.map((label, index) =>
+    index === 4 ? ` Today` : label
+  );
+
   return (
     <View
       style={{
-        padding: 20,
+        paddingVertical: 20,
+        paddingHorizontal: 20,
         marginVertical: 10,
         borderRadius: 20,
         shadowColor: "#000",
@@ -38,21 +55,6 @@ const MoodAnalysis: React.FC<MoodAnalysisProps> = ({ moodData }) => {
         backgroundColor: "#fff", // Background color as fallback
       }}
     >
-      {/* Gradient Background */}
-      <View
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          borderRadius: 20,
-          backgroundColor:
-            "linear-gradient(135deg, #FDEB71, #F8D800, #ABDCFF, #0396FF, #FECFEF, #FF0066)",
-          zIndex: -1,
-        }}
-      />
-
       {/* Header Text */}
       <Text
         style={{
@@ -68,7 +70,7 @@ const MoodAnalysis: React.FC<MoodAnalysisProps> = ({ moodData }) => {
       {/* Line Chart */}
       <LineChart
         data={{
-          labels: safeMoodData.labels,
+          labels: highlightedLabels,
           datasets: [
             {
               data: safeMoodData.data,
@@ -77,7 +79,7 @@ const MoodAnalysis: React.FC<MoodAnalysisProps> = ({ moodData }) => {
           ],
         }}
         width={300}
-        height={220}
+        height={250}
         chartConfig={{
           backgroundColor: "#fff",
           backgroundGradientFrom: "#F9F9F9",

@@ -13,8 +13,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import axios from "axios";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useJournal } from "@/context/JournalContext";
+import MoodAnalysis from "../components/MoodAnalyst";
+import { useMood } from "@/context/MoodContext";
 
 interface Message {
   sender: "user" | "bot";
@@ -23,6 +26,7 @@ interface Message {
 
 const ChatbotScreen: React.FC = () => {
   const { entries } = useJournal();
+  const { moodData, setMoodData } = useMood();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>("");
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -42,7 +46,7 @@ const ChatbotScreen: React.FC = () => {
 
     try {
       setIsTyping(true); // Show typing indicator
-
+      console.log(moodData);
       const journalData = getJournalData();
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
@@ -57,6 +61,14 @@ const ChatbotScreen: React.FC = () => {
             {
               role: "system",
               content: `The user has shared the following journal entries: ${journalData}`,
+            },
+            {
+              role: "system",
+              content: `The user has shared their mood across multiple days on a scale from 1 to 5. Here is the mood data:\n\n${JSON.stringify(
+                moodData,
+                null,
+                2
+              )}\n\nExplain this data to the user, talk about their mood trends, and offer support or suggestions based on this information.`,
             },
             { role: "user", content: inputText },
           ],
@@ -89,7 +101,7 @@ const ChatbotScreen: React.FC = () => {
     const initialBotMessage = () => {
       const welcomeMessage: Message = {
         sender: "bot",
-        text: "Hello! Welcome to the chat. How can I assist you today?",
+        text: "Hello! How are you feeling today?",
       };
       setMessages((prevMessages) => [...prevMessages, welcomeMessage]);
     };
@@ -103,6 +115,11 @@ const ChatbotScreen: React.FC = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <SafeAreaView style={{ flex: 1 }}>
+        {/* Header Bar */}
+        <View style={styles.header}>
+          <Icon name="assistant" size={24} color="#FFFFFF" />
+          <Text style={styles.headerTitle}>Personal Assistant</Text>
+        </View>
         {/* Chat Messages */}
         <FlatList
           data={messages}
@@ -222,6 +239,22 @@ const styles = StyleSheet.create({
   typingText: {
     fontSize: 14,
     color: "#4fc3f7",
+    marginLeft: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4fc3f7", // Light blue header background
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0",
+    justifyContent: "center",
+  },
+  headerTitle: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
     marginLeft: 10,
   },
 });

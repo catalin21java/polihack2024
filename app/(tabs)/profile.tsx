@@ -27,7 +27,6 @@ const Profile = () => {
   const [profileData, setProfileData] = useState({
     name: "John Doe",
     email: "john.doe@example.com",
-    phone: "+1234567890",
     gender: "Male",
     workStudy: "Software Engineer",
     eval1: "Evaluation 1",

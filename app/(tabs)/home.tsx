@@ -4,15 +4,28 @@ import MoodAnalysis from "../components/MoodAnalyst";
 import PopupMoodSelector from "../components/ModdPopup";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GoalsSection from "../components/Reminders";
+import { useMood } from "../../context/MoodContext";
+import ReflectionHighlights from "../components/Highlight";
 
 const HomePage: React.FC = () => {
-  const [moodData, setMoodData] = useState({
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-    data: [3, 4, 5, 4, 3],
-    positiveDays: 4,
-    totalDays: 5,
-  });
-
+  const { moodData, setMoodData } = useMood();
+  const highlights = [
+    {
+      title: "Family",
+      snippet: "Family has been a focus for your happiness this week.",
+      image: "https://via.placeholder.com/400x300.png?text=Family",
+    },
+    {
+      title: "Work",
+      snippet: "You’ve written about work challenges multiple times.",
+      image: "https://via.placeholder.com/400x300.png?text=Work",
+    },
+    {
+      title: "Health",
+      snippet: "Health has been a recurring theme in your journaling.",
+      image: "https://via.placeholder.com/400x300.png?text=Health",
+    },
+  ];
   const goals = [
     {
       title: "Drink More Water",
@@ -63,8 +76,9 @@ const HomePage: React.FC = () => {
 
       {/* Welcome Section */}
       <View
+        className="pb-5"
         style={{
-          padding: 20,
+          paddingHorizontal: 20,
           margin: 16,
           borderRadius: 20,
           backgroundColor: "#ffffff",
@@ -75,32 +89,48 @@ const HomePage: React.FC = () => {
           elevation: 5,
         }}
       >
-        <Image
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/4140/4140037.png",
-          }}
-          style={{
-            width: 60,
-            height: 60,
-            borderRadius: 30,
-            alignSelf: "flex-start",
-            marginBottom: 10,
-          }}
-        />
+        <View className="flex-row">
+          <Image
+            className="mt-6"
+            source={{
+              uri: "https://cdn-icons-png.flaticon.com/512/4140/4140037.png",
+            }}
+            style={{
+              width: 60,
+              height: 60,
+              borderRadius: 30,
+              alignSelf: "flex-start",
+              marginBottom: 10,
+            }}
+          />
+          <View className="flex-col items-center justify-center ps-10">
+            <Text
+              className="align-center mt-5"
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+                color: "#2A7ABF",
+              }}
+            >
+              Welcome back
+            </Text>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: "bold",
+                color: "#2A7ABF",
+              }}
+            >
+              [Name]!
+            </Text>
+          </View>
+        </View>
 
         <Text
-          style={{
-            fontSize: 24,
-            fontWeight: "bold",
-            color: "#2A7ABF",
-          }}
-        >
-          Welcome back, [Name]!
-        </Text>
-        <Text
+          className="pt-3 text-sm"
           style={{
             fontSize: 16,
-            color: "#5D9CEC",
+            color: "#8DBBA8",
             marginTop: 5,
             fontStyle: "italic",
           }}
@@ -118,6 +148,7 @@ const HomePage: React.FC = () => {
       >
         <MoodAnalysis moodData={moodData} />
         <GoalsSection goals={goals} />
+        <ReflectionHighlights highlights={highlights} />
       </ScrollView>
 
       {/* Popup Overlay */}

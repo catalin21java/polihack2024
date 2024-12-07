@@ -20,7 +20,9 @@ const Create = () => {
   const { entries, setEntries } = useJournal(); // Use the journal context
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
@@ -42,11 +44,6 @@ const Create = () => {
   };
 
   const handleAddEntry = () => {
-    // Log field values for debugging
-    console.log("Title:", title);
-    console.log("Description:", description);
-    console.log("Selected Date:", selectedDate);
-
     if (!title || !description || !selectedDate) {
       Alert.alert(
         "Missing Fields",
@@ -83,7 +80,7 @@ const Create = () => {
   if (entries.some((entry) => entry.date === today)) {
     markedDates[today] = { selected: true, selectedColor: "#4caf50" }; // Green for today with an entry
   } else {
-    markedDates[today] = { selected: true, selectedColor: "#4fc3f7" }; // Blue for current day
+    markedDates[today] = { selected: true, selectedColor: "#F5B66A" }; // Blue for current day
   }
   markedDates[selectedDate] = { selected: true, selectedColor: "#4fc3f7" };
 

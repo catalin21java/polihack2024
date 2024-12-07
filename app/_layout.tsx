@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { initializeApp } from "firebase/app";
 import { AuthProvider } from "../context/AuthContext";
 import { JournalProvider } from "@/context/JournalContext";
+import { MoodProvider } from "@/context/MoodContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,13 +30,15 @@ const RootLayout = () => {
   return (
     <AuthProvider>
       <JournalProvider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(questions)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          {/* <Stack.Screen name ="/search/[query]" options={{headerShown: false}}/> */}
-        </Stack>
+        <MoodProvider>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="(questions)" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            {/* <Stack.Screen name ="/search/[query]" options={{headerShown: false}}/> */}
+          </Stack>
+        </MoodProvider>
       </JournalProvider>
     </AuthProvider>
   );
