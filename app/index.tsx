@@ -6,6 +6,8 @@ import { images } from "../constants";
 import CustomButton from "./components/CustomButton";
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+// import mentalHealthImage from './assets/mental-health.png'; // Adjust path as needed
+
 
 export default function Index() {
   const { user, loading } = useAuth();
@@ -24,39 +26,37 @@ export default function Index() {
   }
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className=" h-full" style={{ backgroundColor: "#a5d6e8" }}>
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="w-full items-center mt-5 min-h-[85vh] px-4">
+        <Image
+          source={require('../assets/brain.png')}
+          className="w-[130px] h-[84px]"
+          resizeMode="contain"
+          style={{ alignSelf: 'flex-end' }}
+        />
+        
           <Image
-            source={images.logo}
-            className="w-[130px] h-[84px]"
-            resizeMode="contain"
-          />
-          <Image
-            source={images.cards}
+            source={require('../assets/medical-health.png')}
             className="max-w--[380px] w-full h-[300px]"
             resizeMode="contain"
           />
           <View className="relative mt-5">
-            <Text className="text-3xl text-white font-bold text-center">
-              Discover Endless Possibilities with
+            <Text className="text-3xl  text-black font-bold text-center">
+            Chat Your Way to Growth with
               <Text className="text-secondary-200 "> Aora </Text>
             </Text>
-            <Image
-              source={images.path}
-              className="w-[136px] h-[15px] absolute -bottom-3 left-40"
-              resizeMode="contain"
-            />
+          
           </View>
-          <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            Where creativity meets innovation: embar on a jounrey of limitless
-            exploration with Aora
-          </Text>
-          <CustomButton
-            title="Continue with Email"
-            handlePress={() => router.push("/question1")}
-            containerStyles="w-full mt-7"
-          />
+            <Text className="text-sm font-pregular text-black mt-7 text-center ">
+            Your journey, your thoughts—tracked, understood, and always with you. Let’s get started!
+            </Text>
+            <CustomButton
+              title="Continue with Email"
+              handlePress={() => router.push("/question1")}
+              containerStyles="w-full mt-7 bg-black"
+              textStyles="text-white"
+            />
         </View>
       </ScrollView>
       <StatusBar barStyle="light-content" backgroundColor="#161622" />

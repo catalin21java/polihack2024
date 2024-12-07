@@ -5,14 +5,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function question2() {
   const goals = [
-    "Procrastination",
-    "Lack of goals",
-    "Fear of failure",
-    "Distractions",
-    "Burnout",
-    "Lack of routine",
-    "Perfectionism",
-    "Unclear priorities",
+    "Talking to someone",
+    "Journaling",
+    "Meditation",
+    "Exercise",
+    "Crying it out",
+    "Listening to music",
+    "Watching a show",
+    "Taking a walk",
   ];
 
   // State to track selected goals
@@ -34,11 +34,11 @@ export default function question2() {
     >
       {/* Progress Bar */}
       <View className="h-1 bg-white w-full mb-6">
-        <View className="bg-black-100 h-1 w-1/6" />
+        <View className="bg-black-100 h-1 w-5/6" />
       </View>
       {/* Title */}
       <Text className="text-white text-2xl font-bold mb-4">
-        What challenges you most in staying motivated?
+      What’s your go-to coping mechanism for difficult emotions?
       </Text>
       {/* Goals Grid */}
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="mt-5 mb-6">
@@ -72,7 +72,7 @@ export default function question2() {
           <View className="absolute bottom-4 left-4 right-4">
             <TouchableOpacity
               onPress={() => {
-                router.push("/question3");
+                router.push("/question7");
               }}
               activeOpacity={0.8}
               className="bg-orange-500 py-4 mb-5 rounded-lg items-center"
