@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -9,25 +9,35 @@ import {
   Text,
   Alert,
   Animated,
-} from 'react-native';
+} from "react-native";
 
 const App = () => {
   // Function to get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
-    const day = today.getDate().toString().padStart(2, '0');
+    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+    const day = today.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
   // State for journal entries and form inputs
   const [entries, setEntries] = useState([
-    { id: 1, title: 'A beautiful day', description: 'Went for a walk in the park.', date: '2024-12-07' },
-    { id: 2, title: 'Rainy morning', description: 'Read a book while enjoying the rain.', date: '2024-12-06' },
+    {
+      id: 1,
+      title: "A beautiful day",
+      description: "Went for a walk in the park.",
+      date: "2024-12-07",
+    },
+    {
+      id: 2,
+      title: "Rainy morning",
+      description: "Read a book while enjoying the rain.",
+      date: "2024-12-06",
+    },
   ]);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [date, setDate] = useState(getTodayDate()); // Set default date to today
   const [expandedEntryId, setExpandedEntryId] = useState<number | null>(null); // Track expanded entry
   const [expandAnimation] = useState(new Animated.Value(0)); // For animating the expansion
@@ -35,7 +45,10 @@ const App = () => {
   // Function to add a new entry
   const handleAddEntry = () => {
     if (!title || !description) {
-      Alert.alert('Missing fields', 'Please fill in all fields to add an entry.');
+      Alert.alert(
+        "Missing fields",
+        "Please fill in all fields to add an entry."
+      );
       return;
     }
     const newEntry = {
@@ -45,8 +58,8 @@ const App = () => {
       date,
     };
     setEntries([newEntry, ...entries]); // Add new entry at the top
-    setTitle('');
-    setDescription('');
+    setTitle("");
+    setDescription("");
     setDate(getTodayDate()); // Reset date to today for the next entry
   };
 
@@ -144,7 +157,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e0f7fa', // Light pastel blue background
+    backgroundColor: "#e0f7fa", // Light pastel blue background
   },
   scrollContent: {
     padding: 16,
@@ -152,9 +165,9 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: 20,
     padding: 16,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -162,77 +175,77 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: '#4a4a4a',
+    color: "#4a4a4a",
   },
   input: {
     borderWidth: 1,
-    borderColor: '#a5d6e8', // Lighter pastel blue border
+    borderColor: "#a5d6e8", // Lighter pastel blue border
     borderRadius: 4,
     padding: 8,
     marginBottom: 12,
     fontSize: 16,
-    backgroundColor: '#f1faff', // Light blue input background
+    backgroundColor: "#f1faff", // Light blue input background
   },
   textarea: {
     height: 80,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
   entryCard: {
     marginBottom: 20,
     padding: 16,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
     borderLeftWidth: 4,
-    borderLeftColor: '#80deea', // Lighter pastel blue border for entries
+    borderLeftColor: "#80deea", // Lighter pastel blue border for entries
   },
   entryDate: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#0288d1', // Dark blue for the date
+    fontWeight: "600",
+    color: "#0288d1", // Dark blue for the date
     marginBottom: 4,
   },
   entryTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333333',
+    fontWeight: "bold",
+    color: "#333333",
     marginBottom: 6,
   },
   entryDescription: {
     fontSize: 16,
-    color: '#555555',
+    color: "#555555",
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
   expandedDescription: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     borderRadius: 8,
     padding: 16,
     marginBottom: 20,
     marginTop: -10, // Makes it expand over the card
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
   },
   button: {
-    backgroundColor: '#4fc3f7', // Light pastel blue button color
+    backgroundColor: "#4fc3f7", // Light pastel blue button color
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
     marginTop: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonText: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

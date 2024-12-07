@@ -10,14 +10,16 @@ import { db } from "../../firebase";
 import VideoCard from "../components/VideoCard";
 
 const Home = () => {
-  const [posts, setPosts] = useState<{
-    id: string;
-    creator: string;
-    thumbnail: string;
-    video: string;
-    prompt: string;
-    title: string;
-  }[]>([]);
+  const [posts, setPosts] = useState<
+    {
+      id: string;
+      creator: string;
+      thumbnail: string;
+      video: string;
+      prompt: string;
+      title: string;
+    }[]
+  >([]);
 
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -70,13 +72,23 @@ const Home = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <VideoCard video={item} />}
         ListHeaderComponent={() => (
-          <View style={{ marginTop: 24, marginHorizontal: 16, marginBottom: 24 }}>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 24 }}>
+          <View
+            style={{ marginTop: 24, marginHorizontal: 16, marginBottom: 24 }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 24,
+              }}
+            >
               <View>
                 <Text style={{ fontSize: 14, color: "#607d8b" }}>
                   Welcome Back
                 </Text>
-                <Text style={{ fontSize: 24, fontWeight: "600", color: "#37474f" }}>
+                <Text
+                  style={{ fontSize: 24, fontWeight: "600", color: "#37474f" }}
+                >
                   Filip
                 </Text>
               </View>
@@ -90,7 +102,9 @@ const Home = () => {
             </View>
             <SearchInput placeholder="Search for a video topic" />
             <View style={{ width: "100%", paddingTop: 20, paddingBottom: 32 }}>
-              <Text style={{ fontSize: 18, color: "#37474f", marginBottom: 12 }}>
+              <Text
+                style={{ fontSize: 18, color: "#37474f", marginBottom: 12 }}
+              >
                 Latest Videos
               </Text>
               <Trending posts={posts} />

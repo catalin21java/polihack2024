@@ -77,7 +77,7 @@ const TabsLayout = () => {
         <Tabs.Screen
           name="chatbot"
           options={{
-            title: "Bookmark",
+            title: "Chatbot",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
@@ -92,13 +92,13 @@ const TabsLayout = () => {
         <Tabs.Screen
           name="create"
           options={{
-            title: "Create",
+            title: "Journal",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.plus}
                 color={color} // Consistent color for Create tab
-                name="Create"
+                name="Journal"
                 focused={focused}
               />
             ),
