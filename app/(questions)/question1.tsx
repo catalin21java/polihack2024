@@ -77,7 +77,7 @@ export default function question1() {
                 router.push("/question2");
               }}
               activeOpacity={0.8}
-              className="bg-orange-500 py-4 mb-5 rounded-lg items-center"
+              className="bg-cyan-900 py-4 mb-5 rounded-lg items-center"
             >
               <Text className="text-white text-lg font-medium">Continue</Text>
             </TouchableOpacity>

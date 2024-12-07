@@ -33,20 +33,20 @@ const SignIn = () => {
   return (
     <SafeAreaView className=" h-full" style={{ backgroundColor: "#a5d6e8" }}>
       <ScrollView>
-        <View className="w-full justify-center min-h-[85vh] px-4 my-6">
+        <View className="w-full justify-center min-h-[85vh] px-4 my-3">
           {/* <Image
             source={require('../../assets/brain.png')}
             resizeMode="contain"
             className="w-[115px] h-[35px]"
           ></Image> */}
-            <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
+            <Text className="text-2xl text-black mt-1 font-psemibold pt-5">
             Email
             </Text>
             <FormField
             title=""
             value={form.email}
             handleChangeText={(e) => setForm({ ...form, email: e })}
-            otherStyles="mt-7"
+            otherStyles="mt-1"
             keyboardType="email-address"
             />
              <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
@@ -56,26 +56,27 @@ const SignIn = () => {
             title=""
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
-            otherStyles="mt-7"
+            otherStyles="mt-1"
             />
             <CustomButton
             title="Sign In"
             handlePress={submit}
-            containerStyles="mt-7 bg-black"
+            containerStyles="mt-7 bg-cyan-900"
             isLoading={isSubmitting}
             textStyles="text-white"
             />
           <View className="justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-black font-pregular">
-              Don't have an account?
-            </Text>
-            <Link
-              href="/sign-up"
-              className="text-lg font-psemibold text-secondary"
-            >
-              Sign Up
-            </Link>
-          </View>
+  <Text className="text-lg text-black font-pregular">
+    Don't have an account?
+  </Text>
+  <Link
+    href="/sign-up"
+    className="text-lg text-white font-psemibold" // text-white for white text
+  >
+    Sign Up
+  </Link>
+</View>
+
         </View>
       </ScrollView>
     </SafeAreaView>
