@@ -47,7 +47,7 @@ const ChatbotScreen: React.FC = () => {
             {
               role: "system",
               content:
-                "You are a helpful assistant that has access to the user journal and want to help him achieve a better day. Be more specific, use more information from the journal. Give personalized responses. Suggest some helpful coping mecahnism, ideas, etc",
+                "You are a helpful assistant that has access to the user journal and want to help him achieve a better day. Be more specific, use more information from the journal. Give personalized responses. Suggest some helpful coping mecahnism, ideas, etc> If the user wants to kill himself or something like that give him the antisuicide hotline number. Be empathetic and helpful.",
             },
             {
               role: "system",
