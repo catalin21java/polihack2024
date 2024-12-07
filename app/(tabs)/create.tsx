@@ -9,13 +9,15 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Calendar } from "react-native-calendars";
+import { useJournal } from "../../context/JournalContext";
 
 const Create = () => {
-  const [entries, setEntries] = useState([]);
+  const { entries, setEntries } = useJournal(); // Use the journal context
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -40,16 +42,28 @@ const Create = () => {
   };
 
   const handleAddEntry = () => {
+    // Log field values for debugging
+    console.log("Title:", title);
+    console.log("Description:", description);
+    console.log("Selected Date:", selectedDate);
+
     if (!title || !description || !selectedDate) {
+      Alert.alert(
+        "Missing Fields",
+        "Please fill in all fields before adding an entry."
+      );
       return;
     }
+
     const newEntry = {
       id: entries.length + 1,
       title,
       description,
       date: selectedDate,
     };
-    setEntries([newEntry, ...entries]);
+    setEntries([newEntry, ...entries]); // Add new entry to context
+    console.log("New Entry Added:", newEntry);
+
     setTitle("");
     setDescription("");
   };
@@ -58,7 +72,9 @@ const Create = () => {
     (entry) => entry.date === selectedDate
   );
 
-  const markedDates = entries.reduce((acc, entry) => {
+  const markedDates: {
+    [key: string]: { selected: boolean; selectedColor: string };
+  } = entries.reduce((acc, entry) => {
     acc[entry.date] = { selected: true, selectedColor: "#4caf50" }; // Green for dates with entries
     return acc;
   }, {});
@@ -154,93 +170,86 @@ const Create = () => {
   );
 };
 
-export default Create;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e0f7fa",
+    backgroundColor: "#fff",
   },
   scrollContent: {
+    flexGrow: 1,
     padding: 16,
   },
   streakContainer: {
     alignItems: "center",
-    marginVertical: 10,
+    marginBottom: 16,
   },
   streakText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#4a4a4a",
   },
   streakBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#4fc3f7",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 5,
   },
   streakNumber: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
-    color: "#fff",
-    marginRight: 5,
+    color: "#4caf50",
   },
   streakLabel: {
     fontSize: 18,
-    color: "#fff",
+    marginLeft: 4,
+  },
+  entryCard: {
+    backgroundColor: "#f9f9f9",
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  form: {
+    marginBottom: 32,
   },
   header: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
-    color: "#4a4a4a",
+    marginBottom: 16,
   },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
-    padding: 10,
-    marginVertical: 10,
-    borderRadius: 5,
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 16,
   },
   textarea: {
     height: 100,
+    textAlignVertical: "top",
   },
   button: {
-    backgroundColor: "#4fc3f7",
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: "#4caf50",
+    padding: 16,
+    borderRadius: 8,
     alignItems: "center",
-    marginVertical: 10,
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
-  },
-  entryCard: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    marginVertical: 10,
-    backgroundColor: "#fff",
-  },
-  entryTitle: {
-    fontSize: 16,
     fontWeight: "bold",
   },
-  entryDescription: {
-    fontSize: 14,
-    color: "#4a4a4a",
-  },
   noEntries: {
-    fontSize: 14,
-    color: "#4a4a4a",
     textAlign: "center",
-    marginVertical: 10,
+    color: "#999",
+    marginTop: 16,
   },
-  form: {
-    marginBottom: 20,
+  entryTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  entryDescription: {
+    fontSize: 16,
+    color: "#666",
   },
 });
+
+export default Create;

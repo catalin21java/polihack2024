@@ -20,20 +20,7 @@ const JournalContext = createContext<JournalContextType | null>(null);
 export const JournalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [entries, setEntries] = useState<JournalEntry[]>([
-    {
-      id: 1,
-      title: "A beautiful day",
-      description: "Went for a walk in the park.",
-      date: "2024-12-07",
-    },
-    {
-      id: 2,
-      title: "Rainy morning",
-      description: "Read a book while enjoying the rain.",
-      date: "2024-12-06",
-    },
-  ]);
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
 
   return (
     <JournalContext.Provider value={{ entries, setEntries }}>
