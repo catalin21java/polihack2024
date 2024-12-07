@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useJournal } from "@/context/JournalContext";
 
 interface Message {
   sender: "user" | "bot";
@@ -15,8 +16,15 @@ interface Message {
 }
 
 const ChatbotScreen: React.FC = () => {
+  const { entries } = useJournal();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>("");
+
+  const getJournalData = () => {
+    return entries
+      .map((entry) => `${entry.date} - ${entry.title}: ${entry.description}`)
+      .join("\n");
+  };
 
   const sendMessage = async () => {
     if (!inputText.trim()) return;
@@ -26,11 +34,23 @@ const ChatbotScreen: React.FC = () => {
     setInputText("");
 
     try {
+      const journalData = getJournalData();
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
           model: "gpt-4o-mini",
-          messages: [{ role: "user", content: inputText }],
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a helpful assistant that has access to the user journal and want to help him achieve a better day.",
+            },
+            {
+              role: "system",
+              content: `The user has shared the following journal entries: ${journalData}`,
+            },
+            { role: "user", content: inputText },
+          ],
         },
         {
           headers: {
@@ -52,6 +72,17 @@ const ChatbotScreen: React.FC = () => {
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     }
   };
+  useEffect(() => {
+    const initialBotMessage = async () => {
+      const welcomeMessage = {
+        sender: "bot",
+        text: "Hello! I noticed you've just entered the chat. How can I help you today?",
+      };
+      setMessages((prevMessages) => [...prevMessages, welcomeMessage]);
+    };
+
+    initialBotMessage();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -103,15 +134,15 @@ const styles = {
     marginBottom: 10,
     padding: 12,
     borderRadius: 8,
-    maxWidth: "80%",
+    maxWidth: "80%" as "80%",
   },
   userMessage: {
     backgroundColor: "#4fc3f7", // Light pastel blue for user
-    alignSelf: "flex-end",
+    alignSelf: "flex-end" as "flex-end",
   },
   botMessage: {
     backgroundColor: "#80deea", // Lighter pastel blue for bot
-    alignSelf: "flex-start",
+    alignSelf: "flex-start" as "flex-start",
   },
   messageText: {
     color: "#ffffff",

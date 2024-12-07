@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useJournal } from "@/context/JournalContext";
+import React, { createContext, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -21,21 +22,9 @@ const App = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const JournalContext = createContext(null);
   // State for journal entries and form inputs
-  const [entries, setEntries] = useState([
-    {
-      id: 1,
-      title: "A beautiful day",
-      description: "Went for a walk in the park.",
-      date: "2024-12-07",
-    },
-    {
-      id: 2,
-      title: "Rainy morning",
-      description: "Read a book while enjoying the rain.",
-      date: "2024-12-06",
-    },
-  ]);
+  const { entries, setEntries } = useJournal();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedDate, setSelectedDate] = useState(getTodayDate()); // Selected date on the calendar

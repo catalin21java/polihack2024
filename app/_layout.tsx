@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useFonts } from "expo-font";
 import { initializeApp } from "firebase/app";
 import { AuthProvider } from "../context/AuthContext";
+import { JournalProvider } from "@/context/JournalContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,13 +28,15 @@ const RootLayout = () => {
   if (!fontsLoaded && !error) return null;
   return (
     <AuthProvider>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(questions)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        {/* <Stack.Screen name ="/search/[query]" options={{headerShown: false}}/> */}
-      </Stack>
+      <JournalProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(questions)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          {/* <Stack.Screen name ="/search/[query]" options={{headerShown: false}}/> */}
+        </Stack>
+      </JournalProvider>
     </AuthProvider>
   );
 };
