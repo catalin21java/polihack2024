@@ -31,38 +31,42 @@ const SignIn = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className=" h-full" style={{ backgroundColor: "#a5d6e8" }}>
       <ScrollView>
         <View className="w-full justify-center min-h-[85vh] px-4 my-6">
-          <Image
-            source={images.logo}
+          {/* <Image
+            source={require('../../assets/brain.png')}
             resizeMode="contain"
             className="w-[115px] h-[35px]"
-          ></Image>
-          <Text className="text-2xl text-white mt-10 font-psemibold pt-5">
-            Log into Aora
-          </Text>
-          <FormField
-            title="Email"
+          ></Image> */}
+            <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
+            Email
+            </Text>
+            <FormField
+            title=""
             value={form.email}
             handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
-          />
-          <FormField
-            title="Password"
+            />
+             <Text className="text-2xl text-black mt-10 font-psemibold pt-5">
+            Password
+            </Text>
+            <FormField
+            title=""
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
-          />
-          <CustomButton
+            />
+            <CustomButton
             title="Sign In"
             handlePress={submit}
-            containerStyles="mt-7"
+            containerStyles="mt-7 bg-black"
             isLoading={isSubmitting}
-          />
+            textStyles="text-white"
+            />
           <View className="justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-gray-100 font-pregular">
+            <Text className="text-lg text-black font-pregular">
               Don't have an account?
             </Text>
             <Link
