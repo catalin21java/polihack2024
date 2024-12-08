@@ -34,10 +34,10 @@ const Profile = () => {
   });
 
   const [profileData, setProfileData] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
+    name: "Lidia",
+    email: "tomuslidi@gmail.com",
     gender: "Male",
-    workStudy: "Software Engineer",
+    workStudy: "-",
     goals: answers[1],
     challenges: answers[2],
     joys: answers[3],

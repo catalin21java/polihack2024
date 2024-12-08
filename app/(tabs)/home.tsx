@@ -96,7 +96,7 @@ const HomePage: React.FC = () => {
           <Image
             className="mt-6"
             source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/4140/4140037.png",
+              uri: "https://cdn.vectorstock.com/i/1000x1000/68/94/two-red-heart-on-white-background-sign-symbol-vector-22876894.webp",
             }}
             style={{
               width: 60,
