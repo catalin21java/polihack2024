@@ -14,6 +14,7 @@ import { images } from "../../constants";
 import { useAnswers } from "@/context/AnswersContext";
 import Payment from "../components/Payment";
 import { Alert } from "react-native";
+import ConectButton from "../components/ConnectButton"; // Adjust the path as necessary
 
 const Profile = () => {
   const { answers } = useAnswers();
@@ -125,6 +126,7 @@ const Profile = () => {
             </View>
           </View>
         ))}
+        <Payment />
         <View style={styles.subscriptionContainer}>
           {/* Standard Plan Card */}
           <View style={styles.card}>
@@ -179,26 +181,8 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <Payment />
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#8DBBA8",
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            borderRadius: 10,
-            alignItems: "center",
-            marginTop: 20,
-          }}
-          onPress={() =>
-            Alert.alert("Payment Successful", "Thank you for your payment!", [
-              { text: "OK", onPress: () => console.log("Payment confirmed") },
-            ])
-          }
-        >
-          <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "bold" }}>
-            Pay Now
-          </Text>
-        </TouchableOpacity>
+
+        <ConectButton />
       </ScrollView>
     </SafeAreaView>
   );
