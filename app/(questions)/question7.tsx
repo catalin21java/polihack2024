@@ -31,7 +31,7 @@ export default function question2() {
 
   const handleContinue = () => {
     setAnswers(7, selectedGoals);
-    router.replace("/sign-in"); // Navigate to the next question
+    router.replace("/home"); // Navigate to the next question
   };
 
   return (

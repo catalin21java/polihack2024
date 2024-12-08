@@ -15,7 +15,6 @@ import { useAnswers } from "@/context/AnswersContext";
 import Payment from "../components/Payment";
 import { Alert } from "react-native";
 
-
 const Profile = () => {
   const { answers } = useAnswers();
   const [isEditing, setIsEditing] = useState({
@@ -81,7 +80,6 @@ const Profile = () => {
           <Image source={profileImage} style={styles.profileImage} />
           <Text style={styles.editImageText}>Change Profile Picture</Text>
         </TouchableOpacity>
-
         {/* Profile Fields */}
         {Object.keys(profileData).map((field) => (
           <View key={field} style={styles.fieldContainer}>
@@ -111,7 +109,7 @@ const Profile = () => {
                 />
               ) : (
                 <Text style={styles.fieldValue}>
-                  {profileData[field as keyof typeof profileData] + '\n'}
+                  {profileData[field as keyof typeof profileData] + "\n"}
                 </Text>
               )}
               <TouchableOpacity
@@ -127,71 +125,80 @@ const Profile = () => {
             </View>
           </View>
         ))}
-        
         <View style={styles.subscriptionContainer}>
-  {/* Standard Plan Card */}
-  <View style={styles.card}>
-    <Text style={styles.cardTitle}>Standard Plan</Text>
-    <Text style={styles.cardDescription}>
-      Enjoy basic features without adds to get started on your wellness journey.
-    </Text>
-    <Text style={styles.cardPrice}>$2.99/month</Text>
-    <TouchableOpacity
-      style={styles.cardButton}
-      onPress={() =>
-        Alert.alert(
-          "Subscription Successful",
-          "You have subscribed to the Standard Plan!",
-          [{ text: "OK", onPress: () => console.log("Standard Plan confirmed") }]
-        )
-      }
-    >
-      <Text style={styles.cardButtonText}>Subscribe</Text>
-    </TouchableOpacity>
-  </View>
+          {/* Standard Plan Card */}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Standard Plan</Text>
+            <Text style={styles.cardDescription}>
+              Enjoy basic features without adds to get started on your wellness
+              journey.
+            </Text>
+            <Text style={styles.cardPrice}>$2.99/month</Text>
+            <TouchableOpacity
+              style={styles.cardButton}
+              onPress={() =>
+                Alert.alert(
+                  "Subscription Successful",
+                  "You have subscribed to the Standard Plan!",
+                  [
+                    {
+                      text: "OK",
+                      onPress: () => console.log("Standard Plan confirmed"),
+                    },
+                  ]
+                )
+              }
+            >
+              <Text style={styles.cardButtonText}>Subscribe</Text>
+            </TouchableOpacity>
+          </View>
 
-  {/* Premium Plan Card */}
-  <View style={styles.card}>
-    <Text style={styles.cardTitle}>Premium Plan</Text>
-    <Text style={styles.cardDescription}>
-      Unlock all features, advanced analytics and exclusive content.
-    </Text>
-    <Text style={styles.cardPrice}>$4.99/month</Text>
-    <TouchableOpacity
-      style={styles.cardButton}
-      onPress={() =>
-        Alert.alert(
-          "Subscription Successful",
-          "You have subscribed to the Premium Plan!",
-          [{ text: "OK", onPress: () => console.log("Premium Plan confirmed") }]
-        )
-      }
-    >
-      <Text style={styles.cardButtonText}>Subscribe</Text>
-    </TouchableOpacity>
-  </View>
-</View>
-
+          {/* Premium Plan Card */}
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>Premium Plan</Text>
+            <Text style={styles.cardDescription}>
+              Unlock all features, advanced analytics and exclusive content.
+            </Text>
+            <Text style={styles.cardPrice}>$4.99/month</Text>
+            <TouchableOpacity
+              style={styles.cardButton}
+              onPress={() =>
+                Alert.alert(
+                  "Subscription Successful",
+                  "You have subscribed to the Premium Plan!",
+                  [
+                    {
+                      text: "OK",
+                      onPress: () => console.log("Premium Plan confirmed"),
+                    },
+                  ]
+                )
+              }
+            >
+              <Text style={styles.cardButtonText}>Subscribe</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <Payment />
         <TouchableOpacity
-  style={{
-    backgroundColor: "#8DBBA8",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 20,
-  }}
-  onPress={() =>
-    Alert.alert("Payment Successful", "Thank you for your payment!", [
-      { text: "OK", onPress: () => console.log("Payment confirmed") },
-    ])
-  }
->
-  <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "bold" }}>
-    Pay Now
-  </Text>
-</TouchableOpacity>;
+          style={{
+            backgroundColor: "#8DBBA8",
+            paddingVertical: 12,
+            paddingHorizontal: 20,
+            borderRadius: 10,
+            alignItems: "center",
+            marginTop: 20,
+          }}
+          onPress={() =>
+            Alert.alert("Payment Successful", "Thank you for your payment!", [
+              { text: "OK", onPress: () => console.log("Payment confirmed") },
+            ])
+          }
+        >
+          <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "bold" }}>
+            Pay Now
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -302,7 +309,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333333",
     marginBottom: 8,
-     textAlign: "center"
+    textAlign: "center",
   },
   cardDescription: {
     fontSize: 14,
@@ -327,5 +334,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
-  
 });
