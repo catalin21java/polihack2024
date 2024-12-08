@@ -2,8 +2,9 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAnswers } from "../../context/AnswersContext";
 
-export default function question1() {
+export default function Question1() {
   const goals = [
     "Get Fit",
     "Get Motivated",
@@ -17,10 +18,10 @@ export default function question1() {
     "Get Spiritual",
   ];
 
-  // State to track selected goals
+  const { setAnswers } = useAnswers();
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
 
-  // Handle card selection
+  // Handle selection
   const toggleSelection = (goal: string) => {
     setSelectedGoals((prevSelected) =>
       prevSelected.includes(goal)
@@ -29,19 +30,24 @@ export default function question1() {
     );
   };
 
+  const handleContinue = () => {
+    setAnswers(1, selectedGoals); // Save answers for Question 1
+    router.push("/question2"); // Navigate to the next question
+  };
+
   return (
     <SafeAreaView
       className="flex-1 px-4 pt-6"
       style={{ backgroundColor: "#a5d6e8" }}
     >
       {/* Progress Bar */}
-        <View className="h-1 bg-white w-full mb-6">
-       
-      </View>
+      <View className="h-1 bg-white w-full mb-6"></View>
+
       {/* Title */}
       <Text className="text-white text-2xl font-bold mb-4">
         What are your goals?
       </Text>
+
       {/* Goals Grid */}
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="mt-5 mb-6">
         <View className="flex flex-wrap flex-row justify-between">
@@ -65,17 +71,16 @@ export default function question1() {
           ))}
         </View>
       </ScrollView>
+
       {/* Footer */}
       <View>
-        <Text className="text-black font-pmedium text-xl text-center">
+        <Text className="text-black font-medium text-xl text-center">
           Select one or more
         </Text>
         {selectedGoals.length > 0 && (
           <View className="absolute bottom-4 left-4 right-4">
             <TouchableOpacity
-              onPress={() => {
-                router.push("/question2");
-              }}
+              onPress={handleContinue}
               activeOpacity={0.8}
               className="bg-cyan-900 py-4 mb-5 rounded-lg items-center"
             >

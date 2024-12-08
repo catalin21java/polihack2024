@@ -11,8 +11,10 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { images } from "../../constants";
+import { useAnswers } from "@/context/AnswersContext";
 
 const Profile = () => {
+  const { answers } = useAnswers();
   const [isEditing, setIsEditing] = useState({
     name: false,
     email: false,
@@ -22,6 +24,10 @@ const Profile = () => {
     eval1: false,
     eval2: false,
     eval3: false,
+    eval4: false,
+    eval5: false,
+    eval6: false,
+    eval7: false,
   });
 
   const [profileData, setProfileData] = useState({
@@ -29,9 +35,13 @@ const Profile = () => {
     email: "john.doe@example.com",
     gender: "Male",
     workStudy: "Software Engineer",
-    eval1: "Evaluation 1",
-    eval2: "Evaluation 2",
-    eval3: "Evaluation 3",
+    eval1: answers[1],
+    eval2: answers[2],
+    eval3: answers[3],
+    eval4: answers[4],
+    eval5: answers[5],
+    eval6: answers[6],
+    eval7: answers[7],
   });
 
   const [profileImage, setProfileImage] = useState(images.profile);
@@ -79,7 +89,19 @@ const Profile = () => {
               {isEditing[field as keyof typeof isEditing] ? (
                 <TextInput
                   style={styles.inputField}
-                  value={profileData[field as keyof typeof profileData]}
+                  value={
+                    Array.isArray(
+                      profileData[field as keyof typeof profileData]
+                    )
+                      ? (
+                          profileData[
+                            field as keyof typeof profileData
+                          ] as string[]
+                        ).join(", ")
+                      : (profileData[
+                          field as keyof typeof profileData
+                        ] as string)
+                  }
                   onChangeText={(text) =>
                     handleInputChange(field as keyof typeof profileData, text)
                   }

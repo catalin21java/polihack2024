@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 import { AuthProvider } from "../context/AuthContext";
 import { JournalProvider } from "@/context/JournalContext";
 import { MoodProvider } from "@/context/MoodContext";
+import { AnswersProvider } from "@/context/AnswersContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,13 +32,18 @@ const RootLayout = () => {
     <AuthProvider>
       <JournalProvider>
         <MoodProvider>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(questions)" options={{ headerShown: false }} />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            {/* <Stack.Screen name ="/search/[query]" options={{headerShown: false}}/> */}
-          </Stack>
+          <AnswersProvider>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(questions)"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              {/* <Stack.Screen name ="/search/[query]" options={{headerShown: false}}/> */}
+            </Stack>
+          </AnswersProvider>
         </MoodProvider>
       </JournalProvider>
     </AuthProvider>

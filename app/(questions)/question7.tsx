@@ -1,3 +1,4 @@
+import { useAnswers } from "@/context/AnswersContext";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
@@ -14,6 +15,7 @@ export default function question2() {
     "A structured schedule",
     "A study group",
   ];
+  const { setAnswers } = useAnswers();
 
   // State to track selected goals
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
@@ -27,6 +29,11 @@ export default function question2() {
     );
   };
 
+  const handleContinue = () => {
+    setAnswers(7, selectedGoals);
+    router.replace("/sign-in"); // Navigate to the next question
+  };
+
   return (
     <SafeAreaView
       className="flex-1 px-4 pt-6"
@@ -38,7 +45,7 @@ export default function question2() {
       </View>
       {/* Title */}
       <Text className="text-white text-2xl font-bold mb-4">
-      What environment helps you concentrate?
+        What environment helps you concentrate?
       </Text>
       {/* Goals Grid */}
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="mt-5 mb-6">
@@ -71,9 +78,7 @@ export default function question2() {
         {selectedGoals.length > 0 && (
           <View className="absolute bottom-4 left-4 right-4">
             <TouchableOpacity
-              onPress={() => {
-                router.replace("/sign-in");
-              }}
+              onPress={handleContinue}
               activeOpacity={0.8}
               className="bg-cyan-900 py-4 mb-5 rounded-lg items-center"
             >

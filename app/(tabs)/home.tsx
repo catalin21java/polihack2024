@@ -6,9 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import GoalsSection from "../components/Reminders";
 import { useMood } from "../../context/MoodContext";
 import ReflectionHighlights from "../components/Highlight";
+import { useAnswers } from "@/context/AnswersContext";
 
 const HomePage: React.FC = () => {
   const { moodData, setMoodData } = useMood();
+
   const highlights = [
     {
       title: "Family",

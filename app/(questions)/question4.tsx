@@ -1,3 +1,4 @@
+import { useAnswers } from "@/context/AnswersContext";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
@@ -17,6 +18,7 @@ export default function question2() {
 
   // State to track selected goals
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+  const { setAnswers } = useAnswers();
 
   // Handle card selection
   const toggleSelection = (goal: string) => {
@@ -25,6 +27,11 @@ export default function question2() {
         ? prevSelected.filter((item) => item !== goal)
         : [...prevSelected, goal]
     );
+  };
+
+  const handleContinue = () => {
+    setAnswers(4, selectedGoals);
+    router.push("/question5"); // Navigate to the next question
   };
 
   return (
@@ -71,9 +78,7 @@ export default function question2() {
         {selectedGoals.length > 0 && (
           <View className="absolute bottom-4 left-4 right-4">
             <TouchableOpacity
-              onPress={() => {
-                router.push("/question5");
-              }}
+              onPress={handleContinue}
               activeOpacity={0.8}
               className="bg-cyan-900 py-4 mb-5 rounded-lg items-center"
             >
