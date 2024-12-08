@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView, Text, Image } from "react-native";
 import MoodAnalysis from "../components/MoodAnalyst";
 import PopupMoodSelector from "../components/ModdPopup";
@@ -7,11 +7,23 @@ import GoalsSection from "../components/Reminders";
 import { useMood } from "../../context/MoodContext";
 import ReflectionHighlights from "../components/Highlight";
 import { useAnswers } from "@/context/AnswersContext";
+import axios from "axios";
+
+type Message = {
+  sender: string;
+  text: string;
+};
 
 const HomePage: React.FC = () => {
   const { moodData, setMoodData } = useMood();
   const { answers } = useAnswers();
-  const descriptions = [];
+
+  const [goals, setGoals] = useState<{ title: string; description: string }[]>([
+    { title: answers[1]?.[0] || "Default Goal 1", description: "" },
+    { title: answers[2]?.[0] || "Default Goal 2", description: "" },
+    { title: answers[5]?.[0] || "Default Goal 3", description: "" },
+  ]);
+
   const highlights = [
     {
       title: "Family",
@@ -29,20 +41,56 @@ const HomePage: React.FC = () => {
       image: "https://via.placeholder.com/400x300.png?text=Health",
     },
   ];
-  const goals = [
-    {
-      title: answers[1]?.[0] || "Default Goal 1",
-      description: "Stay hydrated by drinking at least 8 glasses today.",
-    },
-    {
-      title: answers[2]?.[0] || "Default Goal 2",
-      description: "Write down three things you're grateful for today.",
-    },
-    {
-      title: answers[5]?.[0] || "Default Goal 3",
-      description: "Spend 20 minutes walking outdoors to clear your mind.",
-    },
-  ];
+
+  const fetchAdviceForGoals = async () => {
+    try {
+      const updatedGoals = await Promise.all(
+        goals.map(async (goal) => {
+          if (!goal.title) {
+            return { ...goal, description: "No advice available." };
+          }
+
+          const response = await axios.post(
+            "https://api.openai.com/v1/chat/completions",
+            {
+              model: "gpt-4",
+              messages: [
+                {
+                  role: "system",
+                  content: `You are a helpful assistant providing really shor advices for user goals.`,
+                },
+                {
+                  role: "user",
+                  content: `Give me a really short helpful advice related to the goal: "${goal.title}".`,
+                },
+              ],
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization:
+                  "Bearer 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", // Replace with your API key
+              },
+            }
+          );
+
+          const advice =
+            response.data.choices[0]?.message?.content ||
+            "No advice available.";
+
+          return { ...goal, description: advice };
+        })
+      );
+
+      setGoals(updatedGoals);
+    } catch (error) {
+      console.error("Error fetching advice:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdviceForGoals();
+  }, [answers]);
 
   const [isPopupVisible, setPopupVisible] = useState(true);
 
