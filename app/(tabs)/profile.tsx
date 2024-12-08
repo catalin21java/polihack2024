@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { images } from "../../constants";
 import { useAnswers } from "@/context/AnswersContext";
+import Payment from "../components/Payment";
 
 const Profile = () => {
   const { answers } = useAnswers();
@@ -124,6 +125,7 @@ const Profile = () => {
             </View>
           </View>
         ))}
+        <Payment />
       </ScrollView>
     </SafeAreaView>
   );

@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useJournal } from "@/context/JournalContext";
 import MoodAnalysis from "../components/MoodAnalyst";
 import { useMood } from "@/context/MoodContext";
+import { useAnswers } from "@/context/AnswersContext";
 
 interface Message {
   sender: "user" | "bot";
@@ -25,11 +26,23 @@ interface Message {
 }
 
 const ChatbotScreen: React.FC = () => {
+  const { answers } = useAnswers();
+  const userAnswers = Object.values(answers).flat();
+  const formattedAnswers = userAnswers.join(", ");
   const { entries } = useJournal();
   const { moodData, setMoodData } = useMood();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>("");
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const questoons = [
+    "What are your goals?",
+    "What challenges you most in staying motivated?",
+    "What brings you the most joy in your daily life?",
+    "What’s your biggest productivity challenge?",
+    "What area of health would you like to improve the most?",
+    "What’s your go-to coping mechanism for difficult emotions?",
+    "What environment helps you concentrate?",
+  ];
 
   const getJournalData = () => {
     return entries
@@ -69,6 +82,10 @@ const ChatbotScreen: React.FC = () => {
                 null,
                 2
               )}\n\nExplain this data to the user, talk about their mood trends, and offer support or suggestions based on this information.`,
+            },
+            {
+              role: "system",
+              content: `The user has shared the following goals in life, they are really important to him so try to build, when is the case, conversations around them: ${formattedAnswers}`,
             },
             { role: "user", content: inputText },
           ],
