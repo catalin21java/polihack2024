@@ -111,7 +111,7 @@ const Profile = () => {
                 />
               ) : (
                 <Text style={styles.fieldValue}>
-                  {profileData[field as keyof typeof profileData]}
+                  {profileData[field as keyof typeof profileData] + '\n'}
                 </Text>
               )}
               <TouchableOpacity
@@ -127,6 +127,7 @@ const Profile = () => {
             </View>
           </View>
         ))}
+        
         <View style={styles.subscriptionContainer}>
   {/* Standard Plan Card */}
   <View style={styles.card}>
