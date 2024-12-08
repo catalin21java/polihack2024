@@ -27,14 +27,13 @@ interface Message {
 
 const ChatbotScreen: React.FC = () => {
   const { answers } = useAnswers();
-  const userAnswers = Object.values(answers).flat();
-  const formattedAnswers = userAnswers.join(", ");
+
   const { entries } = useJournal();
   const { moodData, setMoodData } = useMood();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState<string>("");
   const [isTyping, setIsTyping] = useState<boolean>(false);
-  const questoons = [
+  const questions = [
     "What are your goals?",
     "What challenges you most in staying motivated?",
     "What brings you the most joy in your daily life?",
@@ -43,6 +42,14 @@ const ChatbotScreen: React.FC = () => {
     "What’s your go-to coping mechanism for difficult emotions?",
     "What environment helps you concentrate?",
   ];
+  const formattedAnswers = Object.entries(answers)
+    .map(
+      ([questionIndex, userAnswers]) =>
+        `Question ${questions[Number(questionIndex) - 1]}: ${userAnswers.join(
+          ", "
+        )}`
+    )
+    .join("\n");
 
   const getJournalData = () => {
     return entries
