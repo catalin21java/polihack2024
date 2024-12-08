@@ -19,6 +19,7 @@ import { useJournal } from "@/context/JournalContext";
 import MoodAnalysis from "../components/MoodAnalyst";
 import { useMood } from "@/context/MoodContext";
 import { useAnswers } from "@/context/AnswersContext";
+import TypingIndicator from "../components/TypingIndicator";
 
 interface Message {
   sender: "user" | "bot";
@@ -120,6 +121,7 @@ const ChatbotScreen: React.FC = () => {
       setIsTyping(false); // Hide typing indicator
     }
   };
+  console.log(isTyping);
 
   useEffect(() => {
     const initialBotMessage = () => {
@@ -170,8 +172,10 @@ const ChatbotScreen: React.FC = () => {
         {/* Typing Indicator */}
 
         {isTyping && (
-          <View style={styles.typingIndicator}>
-            <ActivityIndicator size="small" color="#4fc3f7" />
+          <View style={styles.typingIndicatorContainer}>
+            <View style={styles.typingBubble}>
+              <Text style={styles.typingDots}>...</Text>
+            </View>
             <Text style={styles.typingText}>Bot is typing...</Text>
           </View>
         )}
@@ -217,11 +221,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
   },
   messageText: {
-    fontSize: 16,
+    fontSize: 20,
     lineHeight: 22,
+    color: "#FFFFFF",
   },
   botMessageText: {
-    color: "#4A4A4A", // Gray text for better readability
+    color: "#F4FFF0", // Gray text for better readability
   },
   inputContainer: {
     flexDirection: "row",
@@ -254,17 +259,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
-  typingIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 10,
-    paddingHorizontal: 20,
-  },
-  typingText: {
-    fontSize: 14,
-    color: "#4fc3f7",
-    marginLeft: 10,
-  },
+
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -280,5 +275,36 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginLeft: 10,
+  },
+  typingIndicatorContainer: {
+    flexDirection: "row", // Horizontal alignment
+    paddingBottom: 10,
+    position: "absolute", // Overlay the indicator
+    bottom: 60, // Position above the input bar
+    left: 0,
+    right: 0,
+    zIndex: 10, // Ensure it appears above other elements
+  },
+
+  typingBubble: {
+    backgroundColor: "#8DBBA8", // Light blue background
+    borderRadius: 20, // Rounded bubble
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginRight: 8, // Space between bubble and text
+  },
+
+  typingDots: {
+    fontSize: 18,
+    fontWeight: "bold",
+    letterSpacing: 2, // Spacing between dots
+    color: "#FFFFFF", // Slightly darker blue for dots
+  },
+
+  typingText: {
+    paddingTop: 10,
+    fontSize: 14,
+    fontStyle: "italic",
+    color: "#555555", // Subtle gray text
   },
 });
