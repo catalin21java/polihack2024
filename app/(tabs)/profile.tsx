@@ -13,6 +13,8 @@ import * as ImagePicker from "expo-image-picker";
 import { images } from "../../constants";
 import { useAnswers } from "@/context/AnswersContext";
 import Payment from "../components/Payment";
+import { Alert } from "react-native";
+
 
 const Profile = () => {
   const { answers } = useAnswers();
@@ -22,13 +24,13 @@ const Profile = () => {
     phone: false,
     gender: false,
     workStudy: false,
-    eval1: false,
-    eval2: false,
-    eval3: false,
-    eval4: false,
-    eval5: false,
-    eval6: false,
-    eval7: false,
+    goals: false,
+    challenges: false,
+    joys: false,
+    productivity: false,
+    health: false,
+    coping: false,
+    concentration: false,
   });
 
   const [profileData, setProfileData] = useState({
@@ -36,13 +38,13 @@ const Profile = () => {
     email: "john.doe@example.com",
     gender: "Male",
     workStudy: "Software Engineer",
-    eval1: answers[1],
-    eval2: answers[2],
-    eval3: answers[3],
-    eval4: answers[4],
-    eval5: answers[5],
-    eval6: answers[6],
-    eval7: answers[7],
+    goals: answers[1],
+    challenges: answers[2],
+    joys: answers[3],
+    productivity: answers[4],
+    health: answers[5],
+    coping: answers[6],
+    concentration: answers[7],
   });
 
   const [profileImage, setProfileImage] = useState(images.profile);
@@ -125,7 +127,70 @@ const Profile = () => {
             </View>
           </View>
         ))}
+        <View style={styles.subscriptionContainer}>
+  {/* Standard Plan Card */}
+  <View style={styles.card}>
+    <Text style={styles.cardTitle}>Standard Plan</Text>
+    <Text style={styles.cardDescription}>
+      Enjoy basic features without adds to get started on your wellness journey.
+    </Text>
+    <Text style={styles.cardPrice}>$2.99/month</Text>
+    <TouchableOpacity
+      style={styles.cardButton}
+      onPress={() =>
+        Alert.alert(
+          "Subscription Successful",
+          "You have subscribed to the Standard Plan!",
+          [{ text: "OK", onPress: () => console.log("Standard Plan confirmed") }]
+        )
+      }
+    >
+      <Text style={styles.cardButtonText}>Subscribe</Text>
+    </TouchableOpacity>
+  </View>
+
+  {/* Premium Plan Card */}
+  <View style={styles.card}>
+    <Text style={styles.cardTitle}>Premium Plan</Text>
+    <Text style={styles.cardDescription}>
+      Unlock all features, advanced analytics and exclusive content.
+    </Text>
+    <Text style={styles.cardPrice}>$4.99/month</Text>
+    <TouchableOpacity
+      style={styles.cardButton}
+      onPress={() =>
+        Alert.alert(
+          "Subscription Successful",
+          "You have subscribed to the Premium Plan!",
+          [{ text: "OK", onPress: () => console.log("Premium Plan confirmed") }]
+        )
+      }
+    >
+      <Text style={styles.cardButtonText}>Subscribe</Text>
+    </TouchableOpacity>
+  </View>
+</View>
+
         <Payment />
+        <TouchableOpacity
+  style={{
+    backgroundColor: "#8DBBA8",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 20,
+  }}
+  onPress={() =>
+    Alert.alert("Payment Successful", "Thank you for your payment!", [
+      { text: "OK", onPress: () => console.log("Payment confirmed") },
+    ])
+  }
+>
+  <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "bold" }}>
+    Pay Now
+  </Text>
+</TouchableOpacity>;
       </ScrollView>
     </SafeAreaView>
   );
@@ -213,4 +278,53 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  subscriptionContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 20,
+  },
+  card: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    borderRadius: 12,
+    marginHorizontal: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+    alignItems: "center",
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333333",
+    marginBottom: 8,
+     textAlign: "center"
+  },
+  cardDescription: {
+    fontSize: 14,
+    color: "#666666",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  cardPrice: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#8DBBA8",
+    marginBottom: 12,
+  },
+  cardButton: {
+    backgroundColor: "#8DBBA8",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  cardButtonText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  
 });
