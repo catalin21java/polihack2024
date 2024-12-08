@@ -10,7 +10,8 @@ import { useAnswers } from "@/context/AnswersContext";
 
 const HomePage: React.FC = () => {
   const { moodData, setMoodData } = useMood();
-
+  const { answers } = useAnswers();
+  const descriptions = [];
   const highlights = [
     {
       title: "Family",
@@ -30,15 +31,15 @@ const HomePage: React.FC = () => {
   ];
   const goals = [
     {
-      title: "Drink More Water",
+      title: answers[1]?.[0] || "Default Goal 1",
       description: "Stay hydrated by drinking at least 8 glasses today.",
     },
     {
-      title: "Reflect on Gratitude",
+      title: answers[2]?.[0] || "Default Goal 2",
       description: "Write down three things you're grateful for today.",
     },
     {
-      title: "Take a Walk",
+      title: answers[5]?.[0] || "Default Goal 3",
       description: "Spend 20 minutes walking outdoors to clear your mind.",
     },
   ];
