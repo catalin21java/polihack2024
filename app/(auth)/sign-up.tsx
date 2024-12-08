@@ -84,6 +84,17 @@ const SignUp = () => {
               isLoading={isSubmitting}
               textStyles="text-white"
             />
+            <View className="flex justify-center pt-5 flex-row gap-2">
+              <Text className="text-lg text-black font-pregular">
+                Have an account already?
+              </Text>
+              <Link
+                href="/sign-in"
+                className="text-lg font-psemibold text-white"
+              >
+                Login
+              </Link>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
