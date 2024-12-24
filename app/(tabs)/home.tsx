@@ -69,7 +69,7 @@ const HomePage: React.FC = () => {
               headers: {
                 "Content-Type": "application/json",
                 Authorization:
-                  "Bearer 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", // Replace with your API key
+                  "Bearer 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", // Replace with your API key
               },
             }
           );
