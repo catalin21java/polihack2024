@@ -15,7 +15,7 @@ interface MoodContextType {
 // Default values for the context
 const defaultMoodData: MoodData = {
   labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-  data: [3, 1, 2, 4],
+  data: [3, 3, 3,3 ],
   positiveDays: 4,
   totalDays: 5,
 };

@@ -172,7 +172,7 @@ const HomePage: React.FC = () => {
                 color: "#2A7ABF",
               }}
             >
-              Filip!
+              Lidia!
             </Text>
           </View>
         </View>
